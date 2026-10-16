@@ -1,0 +1,485 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#1769ff">
+  <meta name="description" content="Rosyy Store - katalog dan pemesanan produk digital.">
+  <title>Rosyy Store</title>
+
+  <style>
+    :root {
+      --blue: #1769ff;
+      --dark: #12213b;
+      --muted: #718096;
+      --bg: #f4f7fc;
+      --white: #ffffff;
+      --border: #e5eaf3;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--bg);
+      color: var(--dark);
+    }
+
+    header {
+      background: linear-gradient(135deg, #1255db, #438cff);
+      color: white;
+      padding: 28px 18px 32px;
+      border-radius: 0 0 25px 25px;
+    }
+
+    .wrap {
+      width: min(100% - 28px, 950px);
+      margin: auto;
+    }
+
+    .brand {
+      font-size: 25px;
+      font-weight: 800;
+      margin: 0;
+    }
+
+    header p {
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+
+    .search {
+      width: 100%;
+      padding: 14px 16px;
+      border: none;
+      border-radius: 12px;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .section-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin: 25px 0 15px;
+    }
+
+    .section-title h2 { margin: 0; font-size: 20px; }
+
+    .count { color: var(--muted); font-size: 13px; }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .product {
+      background: var(--white);
+      padding: 14px;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+      box-shadow: 0 4px 14px #1b355008;
+    }
+
+    .product-icon {
+      height: 76px;
+      background: #eaf1ff;
+      border-radius: 12px;
+      display: grid;
+      place-items: center;
+      font-size: 34px;
+      margin-bottom: 12px;
+    }
+
+    .product h3 {
+      margin: 0 0 7px;
+      font-size: 15px;
+      overflow-wrap: anywhere;
+    }
+
+    .product p {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+      margin: 0 0 12px;
+    }
+
+    .price {
+      font-weight: 800;
+      color: var(--blue);
+      margin-top: auto;
+      margin-bottom: 12px;
+    }
+
+    button {
+      border: none;
+      cursor: pointer;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 700;
+      padding: 12px;
+    }
+
+    .add, .checkout {
+      background: var(--blue);
+      color: white;
+    }
+
+    button:active { transform: scale(.98); }
+
+    .cart {
+      background: white;
+      padding: 18px;
+      margin: 24px 0;
+      border: 1px solid var(--border);
+      border-radius: 16px;
+    }
+
+    .cart h2 { margin-top: 0; font-size: 20px; }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 13px;
+    }
+
+    .cart-item small {
+      display: block;
+      color: var(--muted);
+      margin-top: 4px;
+    }
+
+    .quantity {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .quantity button {
+      padding: 7px 10px;
+      background: #edf3ff;
+      color: var(--blue);
+    }
+
+    .total {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 17px;
+      font-weight: 800;
+      padding: 18px 0;
+    }
+
+    .checkout { width: 100%; }
+
+    .clear {
+      margin-top: 9px;
+      width: 100%;
+      background: #f0f3f8;
+      color: #42516a;
+    }
+
+    .empty {
+      color: var(--muted);
+      font-size: 14px;
+      padding: 10px 0;
+    }
+
+    .note {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.6;
+      margin-top: 12px;
+    }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      padding: 10px 15px 30px;
+      font-size: 12px;
+    }
+
+    @media (min-width: 650px) {
+      .products { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      header { padding-top: 36px; }
+      .product { padding: 18px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="wrap">
+      <h1 class="brand">Rosyy Store 🏪</h1>
+      <p>Katalog produk digital dan layanan pilihanmu.<br>
+        Pilih produk, masukkan keranjang, lalu checkout via WhatsApp!</p>
+      <input
+        id="search"
+        class="search"
+        type="search"
+        placeholder="Cari produk..."
+        aria-label="Cari produk"
+      >
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div class="section-title">
+      <h2>🛍️ Katalog Produk</h2>
+      <span id="count" class="count"></span>
+    </div>
+
+    <div id="products" class="products"></div>
+
+    <section class="cart" id="keranjang">
+      <h2>🛒 Keranjang</h2>
+      <div id="cart-items"></div>
+
+      <div class="total">
+        <span>Total</span>
+        <span id="total">Rp0</span>
+      </div>
+
+      <button class="checkout" id="checkout">
+        Checkout via WhatsApp
+      </button>
+      <button class="clear" id="clear">Kosongkan keranjang</button>
+
+      <p class="note">
+        Pesanan akan disiapkan sebagai pesan WhatsApp.
+        Periksa kembali pesanan sebelum menekan tombol kirim.
+      </p>
+    </section>
+  </main>
+
+  <footer>
+    © <span id="year"></span> Rosyy Store · Terima kasih sudah berbelanja!
+  </footer>
+
+  <script>
+    // GANTI DATA PRODUK DI BAGIAN INI.
+    // Harga ditulis sebagai angka rupiah, tanpa titik atau koma.
+    const products = [
+      {
+        id: 1,
+        name: "Jasa Desain Poster",
+        price: 5000,
+        icon: "🎨",
+        description: "Desain poster promosi sesuai permintaan."
+      },
+      {
+        id: 2,
+        name: "Jasa Edit Gambar",
+        price: 5000,
+        icon: "🖼️",
+        description: "Edit gambar untuk kebutuhan konten."
+      },
+      {
+        id: 3,
+        name: "Template Digital",
+        price: 3000,
+        icon: "📱",
+        description: "Template digital untuk kebutuhan kreatif."
+      },
+      {
+        id: 4,
+        name: "Jasa Top Up Game",
+        price: 10000,
+        icon: "🎮",
+        description: "Contoh layanan top up; konfirmasi detail dahulu."
+      }
+    ];
+
+    // Nomor WhatsApp Rosyy Store: format internasional tanpa +.
+    const WA_NUMBER = "62895400756023";
+
+    const cart = {};
+    const rupiah = value =>
+      "Rp" + value.toLocaleString("id-ID");
+
+    const productsEl = document.getElementById("products");
+    const cartEl = document.getElementById("cart-items");
+    const totalEl = document.getElementById("total");
+    const searchEl = document.getElementById("search");
+
+    function renderProducts() {
+      const query = searchEl.value.trim().toLowerCase();
+      const filtered = products.filter(product =>
+        product.name.toLowerCase().includes(query) ||
+        product.description.toLowerCase().includes(query)
+      );
+
+      document.getElementById("count").textContent =
+        filtered.length + " produk";
+
+      productsEl.innerHTML = "";
+
+      if (!filtered.length) {
+        productsEl.innerHTML =
+          '<p class="empty">Produk tidak ditemukan.</p>';
+        return;
+      }
+
+      filtered.forEach(product => {
+        const card = document.createElement("article");
+        card.className = "product";
+
+        const icon = document.createElement("div");
+        icon.className = "product-icon";
+        icon.textContent = product.icon;
+
+        const name = document.createElement("h3");
+        name.textContent = product.name;
+
+        const description = document.createElement("p");
+        description.textContent = product.description;
+
+        const price = document.createElement("div");
+        price.className = "price";
+        price.textContent = rupiah(product.price);
+
+        const button = document.createElement("button");
+        button.className = "add";
+        button.textContent = "＋ Tambah";
+        button.addEventListener("click", () => addToCart(product.id));
+
+        card.append(icon, name, description, price, button);
+        productsEl.appendChild(card);
+      });
+    }
+
+    function addToCart(id) {
+      cart[id] = (cart[id] || 0) + 1;
+      renderCart();
+    }
+
+    function changeQuantity(id, amount) {
+      cart[id] = (cart[id] || 0) + amount;
+      if (cart[id] <= 0) delete cart[id];
+      renderCart();
+    }
+
+    function renderCart() {
+      cartEl.innerHTML = "";
+      let total = 0;
+      let items = 0;
+
+      products.forEach(product => {
+        const quantity = cart[product.id] || 0;
+        if (!quantity) return;
+
+        items += quantity;
+        total += product.price * quantity;
+
+        const row = document.createElement("div");
+        row.className = "cart-item";
+
+        const info = document.createElement("div");
+        const name = document.createElement("strong");
+        name.textContent = product.name;
+
+        const subtotal = document.createElement("small");
+        subtotal.textContent =
+          rupiah(product.price) + " × " + quantity;
+
+        info.append(name, subtotal);
+
+        const controls = document.createElement("div");
+        controls.className = "quantity";
+
+        const minus = document.createElement("button");
+        minus.textContent = "−";
+        minus.setAttribute("aria-label", "Kurangi " + product.name);
+        minus.addEventListener("click", () =>
+          changeQuantity(product.id, -1)
+        );
+
+        const number = document.createElement("span");
+        number.textContent = quantity;
+
+        const plus = document.createElement("button");
+        plus.textContent = "+";
+        plus.setAttribute("aria-label", "Tambah " + product.name);
+        plus.addEventListener("click", () =>
+          changeQuantity(product.id, 1)
+        );
+
+        controls.append(minus, number, plus);
+        row.append(info, controls);
+        cartEl.appendChild(row);
+      });
+
+      if (!items) {
+        cartEl.innerHTML =
+          '<p class="empty">Keranjang masih kosong, bro 😎</p>';
+      }
+
+      totalEl.textContent = rupiah(total);
+    }
+
+    searchEl.addEventListener("input", renderProducts);
+
+    document.getElementById("clear").addEventListener("click", () => {
+      Object.keys(cart).forEach(id => delete cart[id]);
+      renderCart();
+    });
+
+    document.getElementById("checkout").addEventListener("click", () => {
+      const selected = products.filter(p => cart[p.id]);
+
+      if (!selected.length) {
+        alert("Keranjang masih kosong. Tambahkan produk dahulu!");
+        return;
+      }
+
+      let total = 0;
+      const lines = [
+        "Halo Rosyy Store! Saya mau order:",
+        ""
+      ];
+
+      selected.forEach(product => {
+        const quantity = cart[product.id];
+        const subtotal = product.price * quantity;
+        total += subtotal;
+        lines.push(
+          "- " + product.name +
+          " x" + quantity +
+          " = " + rupiah(subtotal)
+        );
+      });
+
+      lines.push(
+        "",
+        "Total: " + rupiah(total),
+        "",
+        "Mohon konfirmasi ketersediaan dan pembayaran. Terima kasih!"
+      );
+
+      const url =
+        "https://wa.me/" + WA_NUMBER +
+        "?text=" + encodeURIComponent(lines.join("\n"));
+
+      window.location.href = url;
+    });
+
+    document.getElementById("year").textContent =
+      new Date().getFullYear();
+
+    renderProducts();
+    renderCart();
+  </script>
+</body>
+  </html>
+  
